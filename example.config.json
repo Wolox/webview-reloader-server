@@ -1,0 +1,11 @@
+{
+  "publicDirPath": "/tmp/WXLWebViewReloader",
+  "serverPort": 4040, 
+  "listeners": [
+    {
+      "name" : "LISTENER_IDENTIFIER",
+      "folder": "PATH_TO_FOLDER_TO_LISTEN",
+      "fileRegexp" : "OPTIONAL_REGEXP" 
+    }
+  ]
+}
