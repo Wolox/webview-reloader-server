@@ -1,6 +1,6 @@
 {
   "name": "webview-reloader-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An HTTP server that can register folder to be served and notifies source changes. This should be used with http://github.com/WoloxWLXWebViewReloader.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,7 +24,7 @@
     "url": "https://github.com/Wolox/webview-reloader-server/issues"
   },
   "homepage": "https://github.com/Wolox/webview-reloader-server",
-  "devDependencies": {
+  "dependencies": {
     "socket.io"   : "1.0.x",
     "express"     : "4.x",
     "body-parser" : "*",
