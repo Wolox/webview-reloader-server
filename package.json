@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/Wolox/webview-reloader-server",
   "dependencies": {
-    "socket.io"   : "1.0.x",
+    "socket.io"   : "1.2.x",
     "express"     : "4.x",
     "body-parser" : "*",
     "rimraf"      : "*"
