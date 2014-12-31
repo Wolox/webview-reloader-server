@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      function callNative(message, data) {
+        if (message == "loggerHandler" && queryParameters.host != "webview") {
+          console.log(data);
+          return;
+        }
+
+        try {
+          webkit.messageHandlers[message].postMessage(data);
+        } catch(err) {
+          console.log('The native context for message "' + message + '" does not exist yet');
+        }
+      }
+
+      function log(message) {
+        if (queryParameters.debugMode) {
+          callNative("loggerHandler", message);
+        }
+      }
+
+      function parseQueryString(search) {
+        if (search.indexOf("?") == 0) {
+          search = search.slice(1, search.length);
+        }
+
+        var keyValuePairs = search.split("&");
+        var queryParameters = {};
+        for(var i = 0, size = keyValuePairs.length; i < size; ++i) {
+          var keyValue = keyValuePairs[i].split("=");
+          var key = keyValue[0];
+          var value = keyValue[1];
+          if (typeof queryParameters[key] !== "undefined") {
+            if (queryParameters[key].constructor === Array) {
+              queryParameters[key].push(value);
+            } else {
+              queryParameters[key] = [queryParameters[key], value];
+            }
+          } else {
+            queryParameters[key] = value;
+          }
+        }
+
+        return queryParameters;
+      }
+
+      function connectWithWatcherServer(url) {
+        log("Connecting with watcher server at " + url);
+        try {
+          var socket = io(url);
+          socket.on('connect', function() { callNative('connectedHandler'); });
+          socket.on('connect_error', function() { callNative('connectionErrorHandler'); });
+          socket.on('src-change', function () { callNative('srcChangeHandler'); });
+        } catch(e) {
+          log("Error: " + e.message);
+        }
+      }
+
+      function estabishConnection() {
+        var watcherServerURL = location.origin + '/' + queryParameters.identifier;
+        connectWithWatcherServer(watcherServerURL);
+      };
+
+      window.queryParameters = parseQueryString(window.location.search);
+
+      log("Main javascript loaded");
+      estabishConnection();
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
